@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: rgb(25, 202, 143);
+    align-items: center;
+    height: 50px;
+}
+.navLink{
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+color: #000;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 100%;
+  background-color: #000;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.navLink:hover::after {
+  transform: scaleX(1);
+}   
+    .signUp{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }

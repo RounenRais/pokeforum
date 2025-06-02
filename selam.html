@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pokémon Kasa Animasyonu</title>
+  <style>
+    body {
+      background: rgb(25, 25, 33);
+      font-family: Arvo, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .raffle-roller {
+      height: 100px;
+      margin: 60px auto 30px auto;
+      width: 900px;
+      position: relative;
+    }
+    .raffle-roller-holder {
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid #3c3759;
+      height: 100px;
+      position: relative;
+    }
+    .raffle-roller-container {
+      display: flex;
+      transition: all 8s cubic-bezier(.08, .6, 0, 1);
+      height: 100px;
+      background: #191726;
+      margin-left: 0;
+    }
+    .raffle-roller-holder::before {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      width: 5px;
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #d16266;
+    }
+    .item {
+      width: 85px;
+      height: 88px;
+      margin: 4px 5px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border: 1px solid #70677c;
+      background-color: #14202b;
+    }
+    .legendary { border-bottom: 4px solid #EB4B4B; }
+    .mythical { border-bottom: 4px solid #FFD700; }
+    .final { border-bottom: 4px solid #007BFF; }
+    .winning-item {
+      border: 2px solid #66b233;
+      position: relative;
+      top: -1px;
+      border-bottom: 4px solid #66b233;
+    }
+    .inventory {
+      margin: 20px auto;
+      width: 960px;
+      border: 2px solid #1c3344;
+      background: #0e1a23;
+      padding: 10px;
+    }
+    .inventory .item {
+      cursor: pointer;
+      margin: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="raffle-roller">
+    <div class="raffle-roller-holder">
+      <div class="raffle-roller-container" id="container"></div>
+    </div>
+  </div>
+  <div style="font-size: 25px;">Kazanan Pokémon: <span style="color: green;" id="winner">...</span></div>
+  <br>
+  <button onclick="generate();">Kasa Aç</button>
+  <button onclick="location.reload();">Sıfırla</button>
+  <div class="inventory" id="inventory"></div>
+
+  <script>
+    const pokemonImages = [
+      { name: "Bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", rarity: "simple" },
+      { name: "Charizard", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png", rarity: "legendary" },
+      { name: "Mew", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png", rarity: "mythical" },
+      { name: "Blastoise", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png", rarity: "final" },
+    ];
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generate() {
+      const container = document.getElementById('container');
+      container.innerHTML = '';
+      container.style.transition = 'none';
+      container.style.marginLeft = '0px';
+
+      const items = [];
+      for (let i = 0; i < 100; i++) {
+        let poke = pokemonImages[0];
+        const rand = randomInt(1, 1000);
+        if (rand < 30) poke = pokemonImages[1];
+        else if (rand > 500) poke = pokemonImages[2];
+        else if (rand > 300) poke = pokemonImages[3];
+        items.push(poke);
+
+        const div = document.createElement('div');
+        div.className = `item ${poke.rarity}`;
+        div.style.backgroundImage = `url(${poke.img})`;
+        container.appendChild(div);
+      }
+
+      // Kazanan Pokémonu belirle
+      const winnerIndex = 78;
+      const winner = items[winnerIndex];
+
+      setTimeout(() => {
+        goRoll(winner);
+      }, 500);
+    }
+
+    function goRoll(poke) {
+      const container = document.getElementById('container');
+      container.style.transition = 'all 8s cubic-bezier(.08,.6,0,1)';
+      container.style.marginLeft = '-6770px';
+
+      setTimeout(() => {
+        document.querySelectorAll('.item')[78].classList.add('winning-item');
+        document.getElementById('winner').textContent = poke.name;
+
+        const winEl = document.createElement('div');
+        winEl.className = `item ${poke.rarity}`;
+        winEl.style.backgroundImage = `url(${poke.img})`;
+        document.getElementById('inventory').appendChild(winEl);
+      }, 8500);
+    }
+  </script>
+</body>
+</html>
