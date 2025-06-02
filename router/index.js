@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Sayfa bileşenlerini import edin
 import Home from '../src/views/Home.vue';
 import openCase from '../src/views/openCase.vue';
-import SignUp from '../src/views/SignUp.vue';
+import SignUp from '../src/views/signUp.vue';
 import About from '../src/views/about.vue';
 import LogIn from '../src/views/logIn.vue';
 import PostDetail from '../src/components/postDetail.vue'
